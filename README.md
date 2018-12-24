@@ -25,6 +25,7 @@ Each of these options is covered in its own section below:
 
 ### Install with Heroku
 
+Click this button: [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ### Manual Heroku Install
 
@@ -57,7 +58,7 @@ heroku addons:create heroku-redis:hobby-dev -a [paste application name here]
 Push the code up to the Heroku application you created:
 
 ```
-heroku push
+git push heroku master
 ```
 
 **Step 4:** Check the installation

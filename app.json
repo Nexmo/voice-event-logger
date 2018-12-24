@@ -1,0 +1,16 @@
+{
+  "name": "Nexmo Event Logger",
+  "description": "A helper application to help debug voice call events, with a choice of log destinations. Based on PHP, Slim Framework and Monolog.",
+  "keywords": [
+    "development",
+    "nexmo",
+    "debugging"
+  ],
+  "repository": "https://github.com/Nexmo/voice-event-logger",
+  "addons": [
+      {
+          "plan": "heroku-redis:hobby-dev"
+      }
+  ]
+}
+
