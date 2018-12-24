@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <title>Log Events</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <h1>Nexmo Voice Event Logger</h1>
+
+     <table
+       class="pure-table pure-table-striped">
+       <thead>
+          <tr>
+            <th>Date and Time</th>
+            <th>Status</th>
+            <th>Data</th>
+          </tr>
+       </thead>
+
+      <?php foreach ($data as $i => $row): ?>
+
+      <tr>
+        <td><?=$row['date']->format("H:i:s dS M Y")?></td>
+        <td><?=$row['status']?></td>
+        <td class="fields"><?=$row['data_fields']?></td>
+      </tr>
+      <?php endforeach; ?>
+
+  </body>
+</html>
+
+

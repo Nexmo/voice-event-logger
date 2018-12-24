@@ -3,6 +3,8 @@
 $container = $app->getContainer();
 
 // Configure Monolog however you would like for your platform
+// if REDIS_URL and/or LOG_FILE env vars are set, it logs to those locations
+// otherwise log lines are sent to error_log()
 $container['logger'] = function($c) {
     $logger = new \Monolog\Logger('my_logger');
 
@@ -32,6 +34,10 @@ $container['logger'] = function($c) {
     }
 
     return $logger;
+};
+
+$container['view'] = function ($container) {
+    return new \Slim\Views\PhpRenderer(__DIR__ . '/templates/');
 };
 
 

@@ -1,0 +1,16 @@
+body {
+  color: #202020
+}
+
+table {
+  width: 85%
+}
+
+td {
+  border-bottom:1px solid #cbcbcb !important
+}
+
+td.fields {
+  font-family: inconsolata, courier, monospace;
+  color: #666666 
+}
