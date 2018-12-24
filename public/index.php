@@ -36,37 +36,42 @@ $app->map(['GET', 'POST'], '/event', function ($request, $response, $args) {
 
 // event viewer with very rudimentary log parsing
 $app->get('/', function ($request, $response, $args) {
+    // everything here will probably fall over with non-trivial amounts of data
     if ($redis_url = getenv('REDIS_URL')) {
-        // will probably fall over with non-trivial amounts of data
         $redis = new Predis\Client($redis_url);
         $data = $redis->lrange("logs", 0, -1);
+    } elseif ($log_file = getenv('LOG_FILE')) {
+        $all_data = file_get_contents($log_file);
+        $data = explode("\n", $all_data);
+    } else {
+        return $response->getBody()->write("Cannot retrieve event data for this storage type");
+    }
 
-        if($data) {
-            $output_data = [];
-            foreach (array_reverse($data) as $row) {
-                // parse date and time, status, and data fields
-                $pattern = '/^\[(.*?)\].*?Event: (.*?) ({.*?})/';
-                $matches = [];
-                preg_match($pattern, $row, $matches);
+    if($data) {
+        $output_data = [];
+        foreach (array_reverse($data) as $row) {
+            // parse date and time, status, and data fields
+            $pattern = '/^\[(.*?)\].*?Event: (.*?) ({.*?})/';
+            $matches = [];
+            preg_match($pattern, $row, $matches);
 
-                $formatted_row = [];
-                $formatted_row['date'] = new DateTime($matches[1]);
-                $formatted_row['status'] = $matches[2];
+            $formatted_row = [];
+            $formatted_row['date'] = new DateTime($matches[1]);
+            $formatted_row['status'] = $matches[2];
 
-                // format the fields
-                $json_body = json_decode($matches[3], true);
-                $formatted_row['data_fields'] = '';
-                foreach($json_body as $field => $value) {
-                    $formatted_row['data_fields'] .= $field . ": " . $value . "<br />\n";
-                }
-
-                $output_data[] = $formatted_row;
+            // format the fields
+            $json_body = json_decode($matches[3], true);
+            $formatted_row['data_fields'] = '';
+            foreach($json_body as $field => $value) {
+                $formatted_row['data_fields'] .= $field . ": " . $value . "<br />\n";
             }
 
-            return $this->view->render($response, "view.html", ["data" => $output_data]);
+            $output_data[] = $formatted_row;
         }
+
+        return $this->view->render($response, "view.html", ["data" => $output_data]);
     }
-    return $response->getBody()->write("No logs received, or this type of data cannot be retrieved");
+    return $response->getBody()->write("No logs received yet");
 });
 
 $app->run();
