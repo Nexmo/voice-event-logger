@@ -1,16 +1,42 @@
 body {
-  color: #202020
+  background-color: #F6F7EB;
+  color: #1F363D;
+  padding: .5em 1em;
+  font-family: "Open Sans", sans-serif;
+}
+
+h1 {
+  color: #40798C;
+  text-align: center;
+  font-family: "Rubik Mono One", sans-serif;
+  font-weight: normal;
+  font-size: 2.5em;
 }
 
 table {
-  width: 85%
+  width: 85%;
+  height: 80%;
+  margin: 0 auto 1em;
+  position: relative;
+}
+
+tr:nth-child(odd) {
+  background-color: #e6e9e9;
+}
+
+th {
+  background-color: #00BA94;
+  position: sticky;
+  top: 0;
+  font-weight: bold;
 }
 
 td {
-  border-bottom:1px solid #cbcbcb !important
+  border-bottom:1px solid #cbcbcb !important;
+  vertical-align: top;
 }
 
 td.fields {
   font-family: inconsolata, courier, monospace;
-  color: #666666 
+  color: #666666;
 }
