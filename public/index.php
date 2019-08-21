@@ -30,7 +30,16 @@ $app->map(['GET', 'POST'], '/event', function ($request, $response, $args) {
         $input_params = array_merge($input_params, $post_params);
     }
 
-    $this->logger->info("Event: " . $input_params['status'], $input_params);
+    $status = "unknown";
+    if(isset($input_params['status'])) {
+        $status = $input_params['status'];
+    } elseif (isset($input_params['dtmf'])) {
+        $status = "dtmf";
+    } elseif (isset($input_params['recording_uuid'])) {
+        $status = "recording";
+    }
+
+    $this->logger->info("Event: " . $status, $input_params);
     return $response->getBody()->write("OK");
 });
 
